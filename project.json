@@ -1,0 +1,17 @@
+{
+  "name": "Photo Cropping",
+  "description": "Crop an employee's face photo",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Core.Activities": "18.2.6745.15248",
+    "UiPath.Python.Activities": "1.0.6716.23055"
+  },
+  "excludedData": [
+    "Private:*",
+    "*password*"
+  ],
+  "toolVersion": "18.2",
+  "projectVersion": "1.0.6791.9147",
+  "packOptions": {},
+  "runtimeOptions": {}
+}
