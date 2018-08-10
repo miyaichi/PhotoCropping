@@ -1,9 +1,8 @@
 import cv2
 
-(width, height) = (180, 225)  # 切り出す画像のサイズ（pixel）
 face_retio = 0.6  # 顔の高さの割合
 top_ratio = 0.1  # 顔の上のスペースの割合
-
+classifier = 'Script\haarcascade_frontalface_alt.xml' # 分類器
 
 def expand(rect, scale):
     (x, y, w, h) = rect
@@ -13,7 +12,7 @@ def expand(rect, scale):
 
 
 def facedetect(gray):
-    cascade = cv2.CascadeClassifier('Script\haarcascade_frontalface_alt.xml')
+    cascade = cv2.CascadeClassifier(classifier)
     rects = cascade.detectMultiScale(gray, 1.11, 5)
     if len(rects) > 0:
         return rects[0]
@@ -21,6 +20,19 @@ def facedetect(gray):
 
 
 def crop(before, after, width = 180, height = 255, scale=20):
+    """
+    Recognize face, crop image and resize.
+
+    Args:
+        before (str): Image file name to be processed.
+        after (str): Image file name after processing.
+        width (int): Width of the processed image (pixels).
+        height (int): Height of the processed image (pixels).
+        scale (int):
+
+    Returns:
+        bool: True if the pcocess succeeds.
+    """
     image = cv2.imread(before)
 
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
