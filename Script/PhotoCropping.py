@@ -20,7 +20,7 @@ def facedetect(gray):
     return None
 
 
-def crop(before, after, scale=20):
+def crop(before, after, width = 180, height = 255, scale=20):
     image = cv2.imread(before)
 
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
