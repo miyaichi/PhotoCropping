@@ -28,7 +28,7 @@ def crop(before, after, width = 180, height = 255, scale=20):
         after (str): Image file name after processing.
         width (int): Width of the processed image (pixels).
         height (int): Height of the processed image (pixels).
-        scale (int):
+        scale (int): Hair and face ratio (percentage)
 
     Returns:
         bool: True if the pcocess succeeds.

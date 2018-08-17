@@ -41,6 +41,7 @@
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Python</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -96,21 +97,33 @@
           </ActivityAction.Argument>
           <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <Sequence.Variables>
-              <Variable x:TypeArguments="p:PythonObject" Name="PyInstance" />
+              <Variable x:TypeArguments="p:PythonObject" Name="pyInstance" />
+              <Variable x:TypeArguments="p:PythonObject" Name="pyObject" />
             </Sequence.Variables>
-            <p:LoadScript Code="{x:Null}" DisplayName="Load Python Script" sap2010:WorkflowViewState.IdRef="LoadScript_1" Result="[PyInstance]" ScriptFile="Script\PhotoCropping.py" />
-            <p:InvokeMethod Result="{x:Null}" DisplayName="Invoke Python Method" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" Instance="[PyInstance]" Name="crop" Parameters="[{before, after, width, height, scale}]" />
+            <p:LoadScript Code="{x:Null}" DisplayName="Load Python Script" sap2010:WorkflowViewState.IdRef="LoadScript_1" Result="[pyInstance]" ScriptFile="Script\PhotoCropping.py" />
+            <p:InvokeMethod DisplayName="Invoke Python Method" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" Instance="[pyInstance]" Name="crop" Parameters="[{before, after, width, height, scale}]" Result="[pyObject]" />
+            <Sequence DisplayName="Result Check" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="x:Boolean" Name="result" />
+              </Sequence.Variables>
+              <p:GetObject x:TypeArguments="x:Boolean" DisplayName="Get Python Object" sap2010:WorkflowViewState.IdRef="GetObject`1_1" PythonObject="[pyObject]" Result="[result]" />
+              <If Condition="[result]" sap2010:WorkflowViewState.IdRef="If_3">
+                <If.Else>
+                  <Throw Exception="[new BusinessRuleException(&quot;Can not detect face.&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_5" />
+                </If.Else>
+              </If>
+            </Sequence>
           </Sequence>
         </ActivityAction>
       </p:PythonScope.Body>
     </p:PythonScope>
     <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[&quot;Cropped File: &quot; + after]" />
-    <sads:DebugSymbol.Symbol>d11DOlxVc2Vyc1xZb3NoaWhpa28gTWl5YWljaGlcRHJvcGJveCAo5YCL5Lq6KVxSZXBvcnRzXDIwMTgwOCBSUEFMVFxQaG90byBDcm9wcGluZ1xQcm9jZXNzLnhhbWwbSANtDgIBAUo0SnICAQpLNEtyAgEJTDRMjQECAQhNM01ZAgEGTjNOWgIBBE8zT1kCAQJRBVUKAgElVgVaCgIBH1sFahUCAQ5rBWuFAQIBC1ETUSoCASZTCVOFAQIBJ1YTVlMCASBYCViUAQIBI1tkW34CAR5hC2cWAgEPa1xrggECAQxTGlNYAgEoWBpYZwIBJGUNZbgBAgEaZg1m3gECARBlnAFltQECAR1lggFlkAECARtmsgFm2wECARRmjAFmmgECARJmoAFmpgECARE=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0dDOlxVc2Vyc1xtaXlhaWNoaS55b3NoaWhpa29cRG9jdW1lbnRzXFVpUGF0aFxQaG90b0Nyb3BwaW5nXFByb2Nlc3MueGFtbCRJA3oOAgEBSzRLcgIBCkw0THICAQlNNE2NAQIBCE4zTlkCAQZPM09aAgEEUDNQWQIBAlIFVgoCATJXBVsKAgEsXAV3FQIBDngFeIUBAgELUhNSKgIBM1QJVIUBAgE0VxNXUwIBLVkJWZQBAgEwXGRcfgIBK2ILdBYCAQ94XHiCAQIBDFQaVFgCATVZGllnAgExZw1nuAECASdoDWjgAQIBG2kNcxgCARBnnAFntQECASpnggFnkAECAShooAFoyQECASFoemiIAQIBH2jRAWjdAQIBHWiOAWiUAQIBHG0PbbYBAgEWbg9yFAIBEW2pAW2zAQIBGW2VAW2hAQIBF24dbicCARJwE3CQAQIBFHAkcGMCARU=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="Throw_4" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="350,52">
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="350,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -119,7 +132,7 @@
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="Throw_1" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="350,52">
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="350,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -129,16 +142,27 @@
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="LoadScript_1" sap:VirtualizedContainerService.HintSize="314,59" />
       <sap2010:ViewStateData Id="InvokeMethod_1" sap:VirtualizedContainerService.HintSize="314,22" />
-      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,245">
+      <sap2010:ViewStateData Id="GetObject`1_1" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="Throw_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="314,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,336">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="PythonScope_1" sap:VirtualizedContainerService.HintSize="350,281" />
-      <sap2010:ViewStateData Id="WriteLine_3" sap:VirtualizedContainerService.HintSize="350,62" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="372,767">
+      <sap2010:ViewStateData Id="PythonScope_1" sap:VirtualizedContainerService.HintSize="350,372" />
+      <sap2010:ViewStateData Id="WriteLine_3" sap:VirtualizedContainerService.HintSize="350,61" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="372,851">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -146,7 +170,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ProcessTransaction_1" sap:VirtualizedContainerService.HintSize="412,1007" />
+      <sap2010:ViewStateData Id="ProcessTransaction_1" sap:VirtualizedContainerService.HintSize="412,931" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
